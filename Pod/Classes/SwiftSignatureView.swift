@@ -8,23 +8,22 @@
 
 import UIKit
 
-public protocol SwiftSignatureViewDelegate: class {
-
-    func swiftSignatureViewDidTapInside(_ view: SwiftSignatureView)
-
-    func swiftSignatureViewDidPanInside(_ view: SwiftSignatureView)
-
+@objc public protocol SwiftSignatureViewDelegate: class {
+    
+    @objc func swiftSignatureViewDidTapInside(_ view: SwiftSignatureView)
+    
+    @objc func swiftSignatureViewDidPanInside(_ view: SwiftSignatureView)
+    
 }
 
-/// A lightweight, fast and customizable option for capturing fluid, variable-stroke-width signatures within your app.
-open class SwiftSignatureView: UIView {
-    // MARK: Public Properties
-
+/// A lightweight, fast and customizable option for capturing fluid, variable-stroke-width signatures within your app.l
+@objcMembers open class SwiftSignatureView: UIView {
+    
     open weak var delegate: SwiftSignatureViewDelegate?
     
     /**
-    The maximum stroke width.
-    */
+     The maximum stroke width.
+     */
     @IBInspectable open var maximumStrokeWidth:CGFloat = 4 {
         didSet {
             if(maximumStrokeWidth < minimumStrokeWidth || maximumStrokeWidth <= 0) {
@@ -34,8 +33,8 @@ open class SwiftSignatureView: UIView {
     }
     
     /**
-    The minimum stroke width.
-    */
+     The minimum stroke width.
+     */
     @IBInspectable open var minimumStrokeWidth:CGFloat = 1 {
         didSet {
             if(minimumStrokeWidth > maximumStrokeWidth || minimumStrokeWidth <= 0) {
@@ -45,13 +44,13 @@ open class SwiftSignatureView: UIView {
     }
     
     /**
-    The stroke color.
-    */
+     The stroke color.
+     */
     @IBInspectable open var strokeColor:UIColor = UIColor.black
     
     /**
-    The stroke alpha. Prefer higher values to prevent stroke segments from showing through.
-    */
+     The stroke alpha. Prefer higher values to prevent stroke segments from showing through.
+     */
     @IBInspectable open var strokeAlpha:CGFloat = 1.0 {
         didSet {
             if(strokeAlpha <= 0.0 || strokeAlpha > 1.0) {
@@ -61,8 +60,8 @@ open class SwiftSignatureView: UIView {
     }
     
     /**
-    The UIImage representation of the signature. Read only.
-    */
+     The UIImage representation of the signature. Read only.
+     */
     fileprivate(set) open var signature:UIImage?
     
     // MARK: Public Methods
@@ -82,10 +81,10 @@ open class SwiftSignatureView: UIView {
     }
     
     override public init(frame: CGRect) {
-        super.init(frame: frame)        
+        super.init(frame: frame)
         initialize()
     }
-
+    
     fileprivate func initialize() {
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SwiftSignatureView.tap(_:)))
         self.addGestureRecognizer(tap)
@@ -109,7 +108,7 @@ open class SwiftSignatureView: UIView {
         signature = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         self.setNeedsDisplay()
-
+        
         self.delegate?.swiftSignatureViewDidTapInside(self)
     }
     
